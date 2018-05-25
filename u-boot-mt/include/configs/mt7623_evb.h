@@ -210,7 +210,7 @@
 #define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_SIZE                     SZ_4K
 #define CONFIG_ENV_OFFSET                   0x600 
-#define CONFIG_SYS_MMC_ENV_DEV              0
+#define CONFIG_SYS_MMC_ENV_DEV              1
 #define CONFIG_SYS_MAX_FLASH_SECT           512
 
 #define CONFIG_EMMC_UBOOT_BLOCK             0x200 
@@ -257,13 +257,13 @@
 #define CONFIG_SYS_NO_FLASH
 /**/
 
-#define CONFIG_ENV_IS_IN_SD
+#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_SIZE                     SZ_128K
 #define CONFIG_ENV_OFFSET                   0xD2800 
 #define CONFIG_SYS_MMC_ENV_DEV              1
 
 #define ENV_BOOT_FROM_SD  \
-    "boot5=mmc init; fatload mmc 0:1 0x84000000 uimage ; bootm\0"
+    "boot5=mmc init; load mmc 0:1 0x84000000 uimage ; bootm\0"
 
 #else
 #define CONFIG_ENV_IS_NOWHERE
@@ -376,9 +376,9 @@
     "boot7=http_upgrade " __stringify(CONFIG_SERVERIP) ";run boot_wr_img;run boot_rd_img;bootm\0"
 
 #define ENV_BOOT_CMD8 \
-    "boot8=mmc init; fatload mmc 0:1 ${loadaddr} " __stringify(CONFIG_UPGFILE) ";run boot_wr_img; bootm\0"
+    "boot8=mmc init; load mmc 0:1 ${loadaddr} " __stringify(CONFIG_UPGFILE) ";run boot_wr_img; bootm\0"
 #define ENV_BOOT_CMD9 \
-    "boot9=mmc init; fatload mmc 0:1 ${loadaddr} ${bpi}/${board}/${service}/${kernel}; bootm\0"
+    "boot9=mmc init; load mmc 0:1 ${loadaddr} ${bpi}/${board}/${service}/${kernel}; bootm\0"
 #define ENV_BOOT_CMD10 \
     "boot10=mmc init; run boot_normal; bootm\0"
 #if defined(FW_UPGRADE_BY_USB)
@@ -395,7 +395,7 @@
 #define SDcard_BOOT_MENU \
    "bootmenu_6=7. System Load Linux Kernel then write to Flash via SDcard.=run boot8\0"
 #define ENV_RESCUE_CMD \
-    "rescue=serious_image_check; if test ${img_result} = bad; then mmc init; fatload mmc 0:1 ${loadaddr} " \
+    "rescue=serious_image_check; if test ${img_result} = bad; then mmc init; load mmc 0:1 ${loadaddr} " \
     __stringify(CONFIG_UPGFILE) ";run boot_wr_img; fi\0"
 
 #elif defined(FW_UPGRADE_BY_WEBUI)
@@ -463,8 +463,8 @@
     "debug=7\0" \
     "bootenv=uEnv.txt\0" \
     "checksd=fatinfo ${device} 1:1\0" \
-    "loadbootenv=fatload ${device} ${partition} ${scriptaddr} ${bpi}/${board}/${service}/${bootenv} || fatload ${device} ${partition} ${scriptaddr} ${bootenv}\0" \
-    "boot_normal=if run checksd; then echo Boot from SD ; setenv partition 1:1; else echo Boot from eMMC ; mmc init 0 ; setenv partition 0:1 ; fi; if run loadbootenv; then echo Loaded environment from ${bootenv}; env import -t ${scriptaddr} ${filesize}; fi; run uenvcmd; fatload mmc 0:1 ${loadaddr} ${bpi}/${board}/${service}/${kernel}; bootm\0" \
+    "loadbootenv=load ${device} ${partition} ${scriptaddr} ${bpi}/${board}/${service}/${bootenv} || load ${device} ${partition} ${scriptaddr} ${bootenv}\0" \
+    "boot_normal=mmc init 1; if run checksd; then echo Boot from SD ; setenv disk 1; setenv partition ${disk}:1; else echo Boot from eMMC ; mmc init 0 ; setenv disk 0; setenv partition ${disk}:1 ; fi; if run loadbootenv; then echo Loaded environment from ${bootenv}; env import -t ${scriptaddr} ${filesize}; fi; run uenvcmd; load mmc 0:1 ${loadaddr} ${bpi}/${board}/${service}/${kernel}; bootm\0" \
     "bootmenu_delay=30\0" \
     ""
 
@@ -509,5 +509,13 @@
  *      We use kernel to decompress kernel.
  */
 //#define CONFIG_LZMA                             
+
+#define CONFIG_FS_EXT4
+#define CONFIG_CMD_EXT4
+#define CONFIG_CMD_EXT2
+#define CONFIG_CMD_FS_GENERIC
+#define CONFIG_CMD_ENV_EXISTS
+#define CONFIG_SUPPORT_RAW_INITRD
+
 
 #endif
