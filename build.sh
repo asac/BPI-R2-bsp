@@ -19,6 +19,7 @@ SD="$T/SD"
 U="${SD}/100MB"
 B="${SD}/BPI-BOOT"
 R="${SD}/BPI-ROOT"
+F="${SD}/BPI-FW"
 	#
 	## clean SD dir.
 	#
@@ -30,6 +31,7 @@ R="${SD}/BPI-ROOT"
 	mkdir -p $U
 	mkdir -p $B
 	mkdir -p $R
+	mkdir -p $F
 	#
 	## copy files to 100MB
 	#
@@ -49,6 +51,14 @@ R="${SD}/BPI-ROOT"
 	rm -rf $R/lib/modules
 	mkdir -p $R/lib/modules
 	cp -a $T/${BPILINUX}/output/lib/modules/${kernel} $R/lib/modules
+
+	#
+	## copy files to BPI-FW (useful for pvr type outputs)
+	#
+	rm -rf $F/lib/firmware
+	mkdir -p $F/lib/firmware
+	cp -a $T/${BPILINUX}/output/lib/firmware $F/lib/firmware
+
 	#
 	## create files for bpi-tools & bpi-migrate
 	#

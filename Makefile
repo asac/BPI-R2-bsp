@@ -50,6 +50,8 @@ kernel: $(K_DOT_CONFIG)
 	$(Q)$(MAKE) -C linux-mt ARCH=arm CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output UIMAGE_LOADADDR=0x80008000 uImage dtbs
 	$(Q)$(MAKE) -C linux-mt ARCH=arm CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output modules
 	$(Q)$(MAKE) -C linux-mt ARCH=arm CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output modules_install
+	$(Q)$(MAKE) -C linux-mt ARCH=arm CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_FW_PATH=output firmware_install
+#	$(Q)$(MAKE) -C linux-mt ARCH=arm CROSS_COMPILE=${K_CROSS_COMPILE} -j$J headers_install
 #	$(Q)$(MAKE) -C linux-mt ARCH=arm CROSS_COMPILE=${K_CROSS_COMPILE} -j$J headers_install
 
 kernel-clean:
