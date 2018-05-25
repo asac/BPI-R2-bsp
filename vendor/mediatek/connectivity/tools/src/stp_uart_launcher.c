@@ -1466,7 +1466,6 @@ static void* launcher_pwr_on_chip(void * arg)
 	char readyStr[PROPERTY_VALUE_MAX] = {0};
 	int iRet = -1;
 
-	pthread_setname_np(pthread_self(), "pwr_on_conn");
 
 	ALOGI("enter power on connsys flow");
 	do {
@@ -1491,7 +1490,6 @@ static void* launcher_set_fwdbg_flag(void * arg)
     int i_ret = -1;
     int flag = *(int*) arg;
 
-    pthread_setname_np(pthread_self(), "dump_fwemi_log");
     ALOGI("dump firmware dbg log from emi buffer ");
     i_ret = ioctl(gWmtFd, WMT_IOCTL_FW_DBGLOG_CTRL, flag);
     if (i_ret < 0) {
