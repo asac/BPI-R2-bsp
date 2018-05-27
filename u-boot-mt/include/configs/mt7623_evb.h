@@ -208,9 +208,9 @@
 #define FEATURE_MMC_BOOT_MODE
 
 #define CONFIG_ENV_IS_IN_MMC
-#define CONFIG_ENV_SIZE                     SZ_4K
-#define CONFIG_ENV_OFFSET                   0x600 
-#define CONFIG_SYS_MMC_ENV_DEV              1
+#define CONFIG_ENV_SIZE                     SZ_16K
+#define CONFIG_ENV_OFFSET                   0x600
+#define CONFIG_SYS_MMC_ENV_DEV              0
 #define CONFIG_SYS_MAX_FLASH_SECT           512
 
 #define CONFIG_EMMC_UBOOT_BLOCK             0x200 
@@ -418,14 +418,6 @@
 #endif
 
 #define ENV_BOOT_CMD \
-    ENV_BOOT_WRITE_IMAGE \
-    ENV_BOOT_READ_IMAGE \
-    ENV_WRITE_UBOOT \
-    ENV_DUIMAGE_RECOVERY \
-    ENV_BOOT_READ_SEC_IMAGE \
-    ENV_DUIMAGE_BACKUP \
-    ENV_BOOT_WRITE_SEC_IMAGE \
-    ENV_RESCUE_CMD \
     ENV_BOOT_CMD0 \
     ENV_BOOT_CMD1 \
     ENV_BOOT_CMD2 \
@@ -516,6 +508,7 @@
 #define CONFIG_CMD_FS_GENERIC
 #define CONFIG_CMD_ENV_EXISTS
 #define CONFIG_SUPPORT_RAW_INITRD
+#define CONFIG_CMD_FAT_WRITE
 
 
 #endif
